@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    hikari:
+      auto-commit: on
+      connection-timeout: 250
+
+file:
+  location:/Users/vakhobjon.tolibov/Desktop/demo/demo/src/main/resources/myFile0.csv
+server:
+  port: 8899
