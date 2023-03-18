@@ -1,10 +1,15 @@
 package com.vtolibov.demo.service;
 
 import com.vtolibov.demo.dto.ElementsAsKeyAndValueResponse;
+import com.vtolibov.demo.entity.ElementsAsKeyAndValueDao;
 import com.vtolibov.demo.repository.CSVFileRepository;
+import com.vtolibov.demo.repository.ElementAsKeyAndValueRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,6 +18,22 @@ import java.util.List;
 public class CsvFileServiceImpl implements CsvFileService {
 
     private final CSVFileRepository csvFileRepository;
+    private final ElementAsKeyAndValueRepository elementAsKeyAndValueRepository;
+
+    @Override
+    public List<ElementsAsKeyAndValueDao> saveElementsAsKeyAndValue() {
+        List<ElementsAsKeyAndValueResponse> elementsAsKeyAndValueResponse = csvFileRepository.getElementsAsKeyAndValueResponse();
+        ModelMapper modelMapper = new ModelMapper();
+        List<ElementsAsKeyAndValueDao> daos = new ArrayList<>();
+        for (ElementsAsKeyAndValueResponse element : elementsAsKeyAndValueResponse) {
+            ElementsAsKeyAndValueDao elementItem = modelMapper.map(element, ElementsAsKeyAndValueDao.class);
+            daos.add(elementItem);
+        }
+        if (!daos.isEmpty()) {
+            return elementAsKeyAndValueRepository.saveAll(daos);
+        }
+        return Collections.emptyList();
+    }
 
     @Override
     public List<ElementsAsKeyAndValueResponse> getElementsAsKeyAndValueResponse() {
@@ -22,4 +43,6 @@ public class CsvFileServiceImpl implements CsvFileService {
         }
         return elementsAsKeyAndValueResponse;
     }
+
+
 }

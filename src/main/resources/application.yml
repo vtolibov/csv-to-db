@@ -1,13 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo
+    url: jdbc:postgresql://localhost:5432/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
     hikari:
       auto-commit: on
       connection-timeout: 250
-
+  jpa:
+    hibernate:
+      ddl-auto: update
 file:
   location:/Users/vakhobjon.tolibov/Desktop/demo/demo/src/main/resources/myFile0.csv
 server:
